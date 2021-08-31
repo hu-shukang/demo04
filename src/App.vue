@@ -7,12 +7,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
-    
-
     return {};
   },
 });
