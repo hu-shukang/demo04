@@ -1,11 +1,17 @@
 <template>
   <input type="file" accept="image/*" @change="onImageUploaded" />
-  <img v-if="imgSrc != ''" :src="imgSrc" alt="" @click="preview" style="width: 70vw"/>
+  <img
+    v-if="imgSrc != ''"
+    :src="imgSrc"
+    alt=""
+    @click="preview"
+    style="width: 70vw"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from "vue";
-import { ImagePreview } from 'vant';
+import { defineComponent, onMounted, onUnmounted, PropType, ref } from "vue";
+import { ImagePreview } from "vant";
 
 export default defineComponent({
   name: "ImageUploader",
@@ -17,22 +23,27 @@ export default defineComponent({
   },
   setup(props, context) {
     const imgSrc = ref<string>("");
+    const reader = new FileReader();
+    const onLoad = () => {
+      imgSrc.value = reader.result as string;
+    };
 
     const renderImage = (file: File | undefined) => {
       if (!file) {
         imgSrc.value = "";
       } else {
-        const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => {
-          imgSrc.value = reader.result as string;
-        };
       }
     };
 
     onMounted(() => {
       const file = props.modelValue;
+      reader.addEventListener("load", onLoad);
       renderImage(file);
+    });
+
+    onUnmounted(() => {
+      reader.removeEventListener("load", onLoad);
     });
 
     const onImageUploaded = (e: any) => {
@@ -47,7 +58,7 @@ export default defineComponent({
         closeable: true,
         showIndex: false,
       });
-    }
+    };
     return {
       onImageUploaded,
       imgSrc,

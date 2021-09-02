@@ -2,9 +2,6 @@
   <div>
     <h2>index.vue</h2>
     <ImageUploader v-model="file" />
-
-    <hr />
-    <!-- <div v-if="file">{{ file.name }}</div> -->
   </div>
 </template>
 
@@ -25,17 +22,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style>
-.preview-cover {
-  position: absolute;
-  bottom: 0;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 4px;
-  color: #fff;
-  font-size: 12px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.3);
-}
-</style>
